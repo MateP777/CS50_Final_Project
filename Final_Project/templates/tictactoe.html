@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+
+
+{% block title %}
+    Tic Tac Toe
+{% endblock %}
+
+{% block main %}
+    <h1>Play Tic Tac Toe</h1>
+    <div id="room-info" data-room-id="{{ room }}"></div>
+    <p id="turn">Current turn: X</p>
+    <div class="board" id="board">
+        <!-- Define each cell with its row and column position -->
+        {% for i in range(3) %}
+            {% for j in range(3) %}
+                <div class="cell" data-cell data-row="{{ i }}" data-col="{{ j }}"></div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+
+       <div class="winning-message">
+        <div id="winning-text"></div>
+        <button id="restart-button">Retrun to rooms</button>
+    </div>
+       <script src="/static/tictactoe.js"></script>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Tic Tac Toe Rooms
+{% endblock %}
+
+{% block main %}
+    <h1>Tic Tac Toe Rooms</h1>
+    <div>
+        <h3>Available Rooms</h3>
+    </div>
+    <div>
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Room ID</th>
+                <th scope="col">User</th>
+                <th scope="col">Join</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for room_id, game in tictactoe_games.items() %}
+                  <tr>
+                    <td>{{ room_id }}</td>
+                    <td>{{ game.player_1 }}</td>
+                    <td>
+                      <form action="/tictacrooms" method="POST" style="display:inline;">
+                          <input type="hidden" name="room_id" value="{{ room_id }}">
+                          <input class="btn btn-primary" value="Join Room" type="submit" name="join">
+                      </form>
+                    </td>
+                  </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+    </div>
+    <div>
+        <form action="/tictacrooms" method="POST">
+             <input class="btn btn-primary" value="Create New Room" type="submit" name="create">
+        </form>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="alert alert-info">
+        {% for message in messages %}
+            <p>{{ message|safe }}</p> <!-- Use |safe to render HTML content like <a> tags -->
+        {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+  
+    {% endblock %}

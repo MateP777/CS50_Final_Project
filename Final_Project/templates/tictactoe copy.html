@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+
+
+{% block title %}
+    Tic Tac Toe
+{% endblock %}
+
+{% block main %}
+    <h1>Play Tic Tac Toe</h1>
+    <div id="room-info" data-room-id="{{ room }}"></div>
+    <p id="turn">Current turn: X</p>
+    <div class="board" id="board">
+           <div class="cell" data-cell></div>
+           <div class="cell" data-cell></div>
+           <div class="cell" data-cell></div>
+           <div class="cell" data-cell></div>
+           <div class="cell" data-cell></div>
+           <div class="cell" data-cell></div>
+           <div class="cell" data-cell></div>
+           <div class="cell" data-cell></div>
+           <div class="cell" data-cell></div>
+       </div>
+
+       <div class="winning-message">
+        <div id="winning-text"></div>
+        <button id="restart-button">Restart</button>
+    </div>
+
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+       <script src="/static/tictactoe.js"></script>
+{% endblock %}

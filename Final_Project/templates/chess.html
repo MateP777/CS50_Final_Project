@@ -1,0 +1,135 @@
+{% extends "layout.html" %}
+
+{% block title %}Chess{% endblock %}
+
+
+{% block main %}
+<div class="board_container">
+    <div id="chessboard" class="mx-auto"></div>
+</div>
+<div id="opponent-timer" class="mt-2 text-danger"></div>
+<button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#roomLinkModal">
+    Get Room Link
+</button>
+<button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#drawModal">
+  Draw
+</button>
+<button type="button" class="btn btn-danger mt-3" data-bs-toggle="modal" data-bs-target="#forfeitModal">
+  Forfeit
+</button>
+<div class="modal fade" id="drawModal" tabindex="-1" aria-labelledby="drawModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header bg-dark">
+              <h5 class="modal-title text-white" id="drawModalLabel">Request Draw</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              Are you sure you want to request a draw?
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" id="confirmDraw">Confirm Draw</button>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header bg-dark">
+              <h5 class="modal-title text-white" id="notificationModalLabel">Notification</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="notificationMessage">
+              <!-- Notification message will be inserted here -->
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-success" id="Accept" data-bs-dismiss="modal">Accept</button>
+              <button type="button" class="btn btn-danger"id="Deny" data-bs-dismiss="modal">Deny</button>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="modal fade" id="forfeitModal" tabindex="-1" aria-labelledby="forfeitModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header bg-dark">
+              <h5 class="modal-title text-white" id="forfeitModalLabel">Forfeit Game</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              Are you sure you want to forfeit the game?
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-danger" id="confirmForfeit">Confirm Forfeit</button>
+          </div>
+      </div>
+  </div>
+</div>
+    <div class="modal fade" id="roomLinkModal" tabindex="-1" aria-labelledby="roomLinkModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header bg-dark">
+              <h5 class="modal-title text-white" id="roomLinkModalLabel">Room Link</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Share this link with your opponent:</p>
+              <div class="input-group">
+                <input type="text" class="form-control" id="roomLink" value="{{ url_for('chessboard', roomid=roomid, _external=True) }}" readonly>
+                <button class="btn btn-outline-secondary" type="button" id="copyLinkBtn">Copy</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  <div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title text-white" id="resultModalLabel">Game Over</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="resultMessage">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="modal fade" id="drawacModal" tabindex="-1" aria-labelledby="drawacModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title text-white" id="drawacModalLabel">Draw!</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="resultMessage">
+              You have made a draw!
+            </div>
+            <div class="modal-footer">
+                <a href="/chess"><button type="button" class="btn btn-primary" data-bs-dismiss="modal">Return to rooms</button></a>
+            </div>
+        </div>
+    </div>
+  </div>
+    <script>
+        var boardFen = "{{ board_fen }}";
+        var currentPlayer = "{{ currentplayer }}";
+        var roomid = "{{ roomid }}";
+
+        // JavaScript to copy the room link to clipboard
+        document.getElementById('copyLinkBtn').addEventListener('click', function() {
+            var roomLink = document.getElementById('roomLink');
+            roomLink.select();
+            roomLink.setSelectionRange(0, 99999);  // For mobile devices
+            document.execCommand('copy');
+        });
+    </script>
+
+    <script src="/static/chess.js"></script>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Chess
+{% endblock %}
+
+{% block main %}
+    <h1>Chess</h1>
+    <form method="POST" action="/chess">
+    <div class="form-group">
+      <label for="color">Choose Side</label>
+      <select class="form-control" id="color" name="color" required>
+        <option value="" disabled selected>color</option>
+        <option value='white'>White</option>
+        <option value='black'>Black</option>
+      </select>
+      <div class="form-group">
+        <fieldset>
+          <legend>Match Visibility</legend>
+            <input type="radio" class="form-check-input" id="private" name="visibility" value="private" required>
+            <label class="form-check-label" for="private">Private</label>
+            <input type="radio" class="form-check-input" id="public" name="visibility" value="public" checked required>
+            <label class="form-check-label" for="public">Public</label>
+        </fieldset>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Start Game</button>
+    </form>
+    <div class="mb-3">
+      <div>
+        <h1>Available Rooms</h1>
+      </div>
+      <div>
+        <table class="table table-bordered table-hover text-center">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Room ID</th>
+              <th scope="col">User</th>
+              <th scope="col">Color</th>
+              <th scope="col">Join</th>
+            </tr>
+          </thead>
+          <tbody>
+              {% for room in rooms %}
+            <tr>
+              <td> {{ room.room_id }}  </td>
+              <td> {{ room.username }} </td>
+              <td> {{ room.color }}</td>
+              <td>
+                <a href="{{ url_for('chessboard', roomid=room.room_id) }}" class="btn btn-primary btn-sm">Join</a>
+              </td>
+            </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% if rooms|length == 0 %}
+      <p class="text-center mt-3">No available rooms at the moment.</p>
+      {% endif %}
+    </div>
+    
+{% endblock %}

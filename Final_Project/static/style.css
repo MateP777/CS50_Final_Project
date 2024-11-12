@@ -1,0 +1,286 @@
+
+
+#chessboard {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    gap: 0px;
+    margin: 20px auto;
+    user-select: none;
+    width: 50vw;
+    max-width: 600px;
+    height: 50vw;
+    max-height: 600px;
+}
+
+/* mobile */
+@media (max-width: 480px) {
+    #chessboard {
+        width: 90vw; /* Take more space on small screens */
+        height: 90vw;
+        max-width: none; /* Remove the max-width limitation */
+        max-height: none;
+    }
+}
+/* tablet */
+@media (min-width: 1200px) {
+    #chessboard {
+        width: 40vw; /* Slightly reduce width for large screens */
+        height: 40vw;
+    }
+}
+
+.square {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.white {
+    background-color: #f0d9b5;
+}
+
+.black {
+    background-color: #b58863;
+}
+
+.piece-img {
+    max-width: 80%;
+    max-height: 80%;
+    transition: transform 0.5s ease;
+    position: absolute;
+    z-index: 10;
+    cursor: grab;
+}
+
+.board_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+}
+
+body {
+    
+    overflow: show;
+}
+
+.selected {
+    background-color: rgb(255, 226, 96);
+}
+
+.col-label {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    font-size: 13px;
+    z-index: 100;
+    font-weight: bold;
+}
+
+.row-label {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    font-size: 13px; 
+    font-weight: bold;
+}
+
+.label-white {
+    color: #f0d9b5;
+}
+
+.label-black {
+    color: #b58863;
+}
+
+.square.dragover {
+    background-color: rgb(255, 226, 96);
+}
+
+.drag-ghost {
+    opacity: 1; 
+    pointer-events: none; 
+    z-index: 9999; 
+    position: absolute; 
+}
+
+.checked {
+    position: relative;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0); /* Start from a small size */
+        opacity: 1; /* Fully visible */
+    }
+    50% {
+        transform: scale(1.1); /* Scale to 1.5 times the size */
+        opacity: 1; /* Still visible */
+    }
+    100% {
+        transform: scale(1); /* Scale back down to 0 */
+        opacity: 1; /* Fade out */
+    }
+}
+
+.checked::before {
+    content: ''; /* Create a pseudo-element */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: solid red; /* Change to desired color */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); /* Glow effect */
+    z-index: 10; /* Ensure it appears above other elements */
+    pointer-events: none; /* Prevent mouse events on the indicator */
+    animation: pulse 1 ease-in-out forwards;
+    transform: translate(-50%, -50%); /* Adjust to center */
+}
+
+
+/* Style for tic tac toe */
+
+:root {
+	--cell-size: 20vh;
+	--color: #f0d9b5; /* for hover */
+	--color-set: #b58863; 
+	--l: 10px;
+}
+@media (max-width: 480px) {
+    :root {
+        --cell-size: 10vh;
+    }
+}
+
+.board {
+    padding-top: 50px;
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	justify-items: center;
+	align-items: center;
+	grid-template-columns: repeat(3, auto)
+}
+
+.cell {
+	width: var(--cell-size);
+	height: var(--cell-size);
+	border: 1px solid black;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	cursor: pointer;
+}
+
+
+/* remove border for edges */
+.cell:nth-child(1), .cell:nth-child(2), .cell:nth-child(3) {
+	border-top: none;
+}
+
+.cell:nth-child(1), .cell:nth-child(4), .cell:nth-child(7) {
+	border-left: none;
+}
+
+.cell:nth-child(3), .cell:nth-child(6), .cell:nth-child(9) {
+	border-right: none;
+}
+
+.cell:nth-child(7), .cell:nth-child(8), .cell:nth-child(9) {
+	border-bottom: none;
+}
+
+.cell.x, .cell.circle {
+    cursor: not-allowed;
+}
+
+/* for cross */
+.board.x .cell:not(.circle):not(.x):hover {
+	background: linear-gradient(to top right, transparent calc(50% - var(--l) / 2), var(--color) calc(50% - var(--l) / 2) calc(50% + var(--l) / 2), transparent calc(50% + var(--l) / 2)),
+				linear-gradient(to bottom right, transparent calc(50% - var(--l) / 2), var(--color) calc(50% - var(--l) / 2) calc(50% + var(--l) / 2), transparent calc(50% + var(--l) / 2));
+	background-size: 80% 80%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+/* for cross (set) */
+.cell:not(.circle).x {
+	background: linear-gradient(to top right, transparent calc(50% - var(--l) / 2), var(--color-set) calc(50% - var(--l) / 2) calc(50% + var(--l) / 2), transparent calc(50% + var(--l) / 2)),
+				linear-gradient(to bottom right, transparent calc(50% - var(--l) / 2), var(--color-set) calc(50% - var(--l) / 2), calc(50% + var(--l) / 2), transparent calc(50% + var(--l) / 2));
+	background-size: 80% 80%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+/* for circle */
+.board.circle .cell:not(.circle):not(.x):hover {	
+	background: radial-gradient(var(--color) 60%, transparent 60%);
+}
+
+/* for circle (set) */
+.cell:not(.x).circle {
+	background: radial-gradient(var(--color-set) 60%, transparent 60%);
+}
+
+/* Remove hover if not active turn */
+.board:not(.x):not(.circle) .cell:hover {
+    background: none;
+}
+
+
+.winning-message {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: var(--color-set);
+	justify-content: center;
+	align-items: center;
+	color: white;
+	font-size: 5rem;
+	font-family: 'Courier New' Courier monospace;
+	flex-direction: column;
+}
+
+.winning-message button {
+	border-radius: 10px;
+	font-size: 3rem;
+	background-color: white;
+	border: 1px solid var(--color-set);
+	padding: .25em .5em;
+	cursor: pointer;
+}
+
+.winning-message button:hover {
+	background-color: var(--color-set);
+	color: white;
+	border-color: white;
+}
+
+.winning-message.show {
+	display: flex;
+}
+
+.fromsquare {
+    background-color: rgb(255, 208, 0);
+}
+
+.tosquare {
+    background-color: rgb(255, 238, 0);
+}
+
+
+@media (max-width: 992px) {
+    .navbar-collapse .nav-item {
+      padding-left: 20px; /* Add desired indentation */
+    }
+  }
