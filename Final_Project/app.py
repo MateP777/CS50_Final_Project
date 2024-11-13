@@ -221,6 +221,10 @@ def logout():
     # Delete the rooms from the tictactoe_games dictionary
     for room_id in rooms_to_delete:
         del tictactoe_games[room_id]
+    
+    rooms_del = [room_id for room_id, game in room_colors.items() if game['white'] == username or game['black'] == username]
+    for room_id in rooms_del:
+        del room_colors[room_id]
 
     session.clear()
     return redirect("/login")

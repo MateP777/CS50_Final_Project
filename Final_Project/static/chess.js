@@ -589,6 +589,7 @@ socket.on('opponent_reconnected', function(data) {
 socket.on('player_forfeit', function(data) {
     clearInterval(disconnectCountdown);
     document.getElementById('opponent-timer').innerHTML = 'Opponent forfeited.';
+    window.location.replace("/");
 });
 
 socket.on('draw_noti', function(data) {
